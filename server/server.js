@@ -1,5 +1,5 @@
 const express = require('express');
-const { default: uuid4 } = require('uuid4');
+const uuid4 = require('uuid4');
 const cors = require('cors');
 require('dotenv').config();
 
@@ -23,9 +23,9 @@ app.patch('/todos/:id', (req, res) => {
   const { params: { id }, body } = req;
 
   const todoIndex = todos.findIndex((todo) => todo.id === id);
-  const updatedTodo = { ...todos[todoIndex], ...body };
+  const updatedTodo = { ...todos[todoIndex], ...body, id };
 
-  todos = [...todos.slice(0, todoIndex), updatedTodo, ...todoIndex.slice(todoIndex + 1)];
+  todos = [...todos.slice(0, todoIndex), updatedTodo, ...todos.slice(todoIndex + 1)];
 
   res.json(updatedTodo);
 });
