@@ -67,10 +67,10 @@ const Todos = () => {
 
       <Grid container spacing={2}>
         {todos.map((todo) => (
-          <Grid key={todo.id} item xs={4}>
-            <Card>
+          <Grid key={todo.id} item xs={6} md={4}>
+            <Card sx={{ height: '100%' }}>
               <CardContent>
-                <Typography variant="h4">{todo.title}</Typography>
+                <Typography variant="h4" sx={{ mb: 2 }}>{todo.title}</Typography>
                 <Typography variant="body1">{todo.description}</Typography>
               </CardContent>
               <CardActions>

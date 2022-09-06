@@ -18,9 +18,9 @@ const Layout = ({ children }) => (
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
+            Todos
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit">Dummy button</Button>
         </Toolbar>
       </AppBar>
     </Box>
