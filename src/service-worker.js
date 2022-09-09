@@ -12,6 +12,7 @@ import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { StaleWhileRevalidate } from 'workbox-strategies';
+import { httpMethods, processFetchRequest } from './network';
 
 clientsClaim();
 
@@ -70,4 +71,13 @@ self.addEventListener('message', (event) => {
   }
 });
 
-// Any other custom service worker logic can go here.
+self.addEventListener('fetch', (event) => {
+  if (
+    event.request.method === httpMethods.GET
+    || !event.request.url.includes(process.env.REACT_APP_API_URL)
+  ) {
+    return;
+  }
+
+  event.respondWith(processFetchRequest(event));
+});
