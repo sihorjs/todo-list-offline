@@ -7,11 +7,12 @@
 // You can also remove this file if you'd prefer not to use a
 // service worker, and the Workbox build step will be skipped.
 
+import { CacheableResponsePlugin } from 'workbox-cacheable-response';
 import { clientsClaim } from 'workbox-core';
 import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
-import { StaleWhileRevalidate } from 'workbox-strategies';
+import { NetworkFirst, StaleWhileRevalidate } from 'workbox-strategies';
 import { httpMethods, processFetchRequest } from './network';
 
 clientsClaim();
@@ -61,6 +62,21 @@ registerRoute(
       new ExpirationPlugin({ maxEntries: 50 }),
     ],
   })
+);
+
+registerRoute(
+  ({url}) =>
+    url.origin === process.env.REACT_APP_API_URL &&
+    url.pathname.startsWith('/todos'),
+  new NetworkFirst({
+    cacheName: 'api-url-cache',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200],
+      }),
+    ],
+  }),
+  'GET'
 );
 
 // This allows the web app to trigger skipWaiting via
